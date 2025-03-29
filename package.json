@@ -10,16 +10,20 @@
   },
   "dependencies": {
     "next": "15.2.4",
+    "phaser": "^3.60.0",
+    "phaser-react-tools": "^1.0.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.26.9",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.17.28",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.21",
+    "babel-loader": "^10.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "postcss": "^8.5.3",
