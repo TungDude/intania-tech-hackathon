@@ -74,7 +74,7 @@ export default function Scene3() {
                         className={`object-contain animate-float-down`}
                     />
                     <EndScreen
-                        text="LOSE"
+                        text="มารยาทพื้นฐานข้อที่ 11 ควรเอาผ้าคลุมตักก่อนรับประทานอาหาร"
                         className="animate-fade-in-door-0"
                     />
                 </>
