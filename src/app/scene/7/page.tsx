@@ -44,7 +44,7 @@ const Scene7 = () => {
           private gameOverText!: Phaser.GameObjects.Text;
           private timerEvent?: Phaser.Time.TimerEvent;
           private timeLeft: number = 5;
-          private timeText!: Phaser.GameObjects.Text;
+          private timerText!: Phaser.GameObjects.Text;
 
           constructor() {
             super({ key: "Scene7Game" });
@@ -57,36 +57,20 @@ const Scene7 = () => {
             // Load images
             this.load.image("bg_7_1", "/images/7_default.png");
             this.load.image("bg_7_2", "/images/7_default.png");
+            this.load.image("bg_7_serve_1", "/images/7_serve.png");
+            this.load.image("bg_7_serve_2", "/images/7_serve_2.png");
             this.load.image("bg_7_lose", "/images/7_lose.png");
             this.load.image("ele_punch", "/images/ele_punch.PNG");
           }
 
           create(): void {
             // Initial background
-            this.background = this.add.sprite(600, 500, "bg_7_1");
+            this.background = this.add.sprite(600, 600, "bg_7_serve_1");
             this.background.setOrigin(0.5, 0.5);
-            this.background.setScale(0.4);
+            this.background.setScale(0.45);
 
             // Set loading to false once initial assets are loaded
             setIsLoading(false);
-
-            // Transition to second background after 2 seconds
-            this.time.delayedCall(2000, () => {
-              this.background.setTexture("bg_7_2");
-
-              // Show the "ขอบคุณครับ" button after the background changes
-              this.thanksButton.setVisible(true);
-              this.thanksButtonText.setVisible(true);
-
-              // Button pop-in animation
-              this.tweens.add({
-                targets: [this.thanksButton, this.thanksButtonText],
-                scaleX: { from: 0, to: 1 },
-                scaleY: { from: 0, to: 1 },
-                duration: 500,
-                ease: "Back.easeOut",
-              });
-            });
 
             // Create thanks button (initially hidden)
             this.thanksButton = this.add.rectangle(600, 900, 220, 70, 0x4caf50);
@@ -116,14 +100,61 @@ const Scene7 = () => {
               ease: "Sine.easeInOut",
             });
 
+            // Sequence of background changes
+            this.time.delayedCall(2000, () => {
+              // First transition: bg_7_serve_1 -> bg_7_serve_2
+              this.background.setTexture("bg_7_serve_2");
+
+              this.time.delayedCall(2000, () => {
+                // Second transition: bg_7_serve_2 -> bg_7_1
+                this.background.setTexture("bg_7_1");
+
+                this.time.delayedCall(2000, () => {
+                  // Third transition: bg_7_1 -> bg_7_2
+                  this.background.setTexture("bg_7_2");
+
+                  // Show the "ขอบคุณครับ" button after the final background change
+                  this.thanksButton.setVisible(true);
+                  this.thanksButtonText.setVisible(true);
+
+                  // Button pop-in animation
+                  this.tweens.add({
+                    targets: [this.thanksButton, this.thanksButtonText],
+                    scaleX: { from: 0, to: 1 },
+                    scaleY: { from: 0, to: 1 },
+                    duration: 500,
+                    ease: "Back.easeOut",
+                  });
+
+                  // Start timer after the final background change
+                  this.startTimer();
+                });
+              });
+            });
+          }
+
+          private startTimer(): void {
             // Start 5-second timer
             this.timeLeft = 5;
+            this.timerText = this.add.text(1100, 100, "5", {
+              fontFamily: "Torsilp-SuChat",
+              fontSize: "48px",
+              color: "#FF0000",
+              fontStyle: "bold",
+            });
+
+            // Make timer text invisible but keep functionality
+            this.timerText.setVisible(false);
+
             this.timerEvent = this.time.addEvent({
               delay: 1000,
               callback: () => {
                 this.timeLeft--;
+                this.timerText.setText(this.timeLeft.toString());
                 console.log(`Time left: ${this.timeLeft}`);
 
+                // No need for visual effects since timer is invisible
+                // But keep functionality for debugging
                 if (this.timeLeft <= 0) {
                   this.timerEvent?.destroy();
                   this.showGameOver();
@@ -143,12 +174,13 @@ const Scene7 = () => {
               // Stop timer
               this.timerEvent?.destroy();
 
+              // Hide timer text (redundant but for safety)
+              if (this.timerText) this.timerText.setVisible(false);
+
               // Hide button
               this.thanksButton.disableInteractive();
               this.thanksButton.setVisible(false);
               this.thanksButtonText.setVisible(false);
-
-             
 
               // Proceed to home screen with delay
               this.time.delayedCall(4000, () => {
