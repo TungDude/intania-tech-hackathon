@@ -419,7 +419,7 @@ const Scene1 = () => {
   return (
     <div
       id="game-container"
-      className="w-full h-screen flex items-center justify-center"
+      className="w-full h-screen flex items-center justify-center bg-white"
     >
       {isLoading && <div className="text-2xl">Loading...</div>}
     </div>

@@ -29,6 +29,7 @@ const Scene5 = () => {
           private gameOverOverlay!: Phaser.GameObjects.Rectangle;
           private gameOverText!: Phaser.GameObjects.Text;
           private timerEvent?: Phaser.Time.TimerEvent;
+          private timeLeft: number = 5; // Add this property to track time
 
           constructor() {
             super({ key: "Scene5Game" });
@@ -90,12 +91,13 @@ const Scene5 = () => {
             );
 
             // Start 5-second timer
-            let timeLeft = 5;
+            this.timeLeft = 5;
             this.timerEvent = this.time.addEvent({
               delay: 1000,
               callback: () => {
-                timeLeft--;
-                if (timeLeft <= 0) {
+                this.timeLeft--;
+                console.log(`Time left: ${this.timeLeft}`);
+                if (this.timeLeft <= 0) {
                   this.timerEvent?.destroy();
                   this.showGameOver();
                 }
@@ -105,18 +107,30 @@ const Scene5 = () => {
           }
 
           private handleThankYouClick(): void {
-            // Stop timer
-            this.timerEvent?.destroy();
+            console.log(
+              `Button clicked with ${this.timeLeft} seconds remaining`
+            );
 
-            // Hide button
-            this.thankYouButton.disableInteractive();
-            this.thankYouButton.setVisible(false);
-            this.thankYouButtonText.setVisible(false);
+            // Check if there's enough time left (more than 2 seconds)
+            if (this.timeLeft > 2) {
+              // Stop timer
+              this.timerEvent?.destroy();
 
-            // Proceed to next scene
-            this.time.delayedCall(1000, () => {
-              window.location.href = "/scene/6";
-            });
+              // Hide button
+              this.thankYouButton.disableInteractive();
+              this.thankYouButton.setVisible(false);
+              this.thankYouButtonText.setVisible(false);
+
+              // Proceed to next scene
+              this.time.delayedCall(1000, () => {
+                window.location.href = "/scene/6";
+              });
+            } else {
+              // Not enough time left, show game over instead
+              console.log("Not enough time left! Game over!");
+              this.timerEvent?.destroy();
+              this.showGameOver();
+            }
           }
 
           private showGameOver(): void {
