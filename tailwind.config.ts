@@ -16,6 +16,11 @@ module.exports = {
         'float-down': 'float-down 2s ease-in-out forwards',
       },
       keyframes: {
+        "zoom-in": {
+          '0%': { transform: 'scale(0.1)', opacity: '0'},
+           '50%': { opacity: '1' },
+           '100%': { transform: 'scale(8)', opacity: '0' }
+        },
         "zoom-in-2": {
           "0%": { transform: "scale(0.5)", opacity: "0" }, // Start small and transparent
           "100%": { transform: "scale(1)", opacity: "1" }, // End at full size and fully visible
