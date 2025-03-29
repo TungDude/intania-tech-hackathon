@@ -29,7 +29,7 @@ export default function HomePage() {
             Scene 2
           </button>
           <button
-            onClick={() => handleSceneSelect(3)}
+            onClick={() => handleSceneSelect(4)}
             className="w-64 px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg text-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900"
           >
             Scene 3
