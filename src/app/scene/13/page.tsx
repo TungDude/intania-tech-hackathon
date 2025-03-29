@@ -6,12 +6,12 @@ import { getDeathCount, incrementDeathCount } from "@/app/_utils/gameState";
 import { useRouter } from "next/navigation";
 
 // Singleton to track game instance
-let gameInstance: any = null;
+let gameInstance: Phaser.Game | null = null;
 let hasInitialized = false;
 
 const Scene13 = () => {
     const router = useRouter();
-    const gameRef = useRef<any>(null);
+    const gameRef = useRef<Phaser.Game | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -278,7 +278,7 @@ const Scene13 = () => {
 
                 // Clean up any existing game instance
                 if (gameInstance) {
-                    gameInstance.destroy(true);
+                    (gameInstance as Phaser.Game).destroy(true); // Assert that gameInstance is a Phaser.Game
                 }
 
                 // Create new game instance
@@ -295,7 +295,7 @@ const Scene13 = () => {
         return () => {
             // Don't destroy game instance on component unmount
         };
-    }, []);
+    }, [router]);
 
     return (
         <div

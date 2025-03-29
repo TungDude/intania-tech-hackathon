@@ -10,7 +10,6 @@ export default function Scene3() {
     const router = useRouter();
     const [isClothDropped, setIsClothDropped] = useState(false);
     const [textSequence, setTextSequence] = useState(0);
-    const [winable, setWinable] = useState(false);
     const [lose, setLose] = useState(false);
     const [showHangImage, setShowHangImage] = useState(false);
 
@@ -26,9 +25,16 @@ export default function Scene3() {
 
     useEffect(() => {
         if (textSequence === 3) {
-            setWinable(true);
+            if (!isClothDropped) {
+                setLose(true);
+                setTimeout(() => {
+                    router.push('/');
+                }, 8000);
+            } else {
+                router.push('/scene/4');
+            }
         }
-    }, [textSequence]);
+    }, [textSequence, isClothDropped, router]);
 
     useEffect(() => {
         if (lose) {
@@ -53,13 +59,8 @@ export default function Scene3() {
         const data = event.dataTransfer.getData("cloth");
 
         if (data) {
-            if (!winable) {
-                setLose(true);
-                return;
-            }
-
             setIsClothDropped(true);
-            router.push('/scene/4');
+            return;
         }
     };
 
@@ -77,7 +78,9 @@ export default function Scene3() {
                         className={`object-contain animate-float-down`}
                     />
                     <EndScreen
-                        text="มารยาทพื้นฐานข้อที่ 11 ควรเอาผ้าคลุมตักก่อนรับประทานอาหาร"
+                        text={"มารยาทพื้นฐานข้อที่ 11 ควรเอาผ้าคลุมตักก่อนรับประทานอาหาร" +
+                            "\n DEATH COUNT: " +
+                            getDeathCount()}
                         className="animate-fade-in-door-0"
                     />
                 </>
@@ -131,7 +134,7 @@ export default function Scene3() {
                     alt={'3_cloth'}
                     width={1028}
                     height={852}
-                    className={`absolute bottom-[90px] h-[200px] w-auto cursor-pointer animate-pulse-cloth-3 hover:animate-scale-up-cloth-3 ${lose ? "animate-fall-down" : ""
+                    className={`absolute bottom-[90px] h-[200px] w-auto cursor-pointer hover:animate-scale-up-cloth-3 ${lose ? "animate-fall-down" : ""
                         }`}
                     draggable={true}
                     onDragStart={handleDragStart}

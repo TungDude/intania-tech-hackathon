@@ -6,12 +6,12 @@ import { getDeathCount, incrementDeathCount } from "@/app/_utils/gameState";
 import { useRouter } from "next/navigation";
 
 // Singleton to track game instance
-let gameInstance: any = null;
+let gameInstance: Phaser.Game | null = null;
 let hasInitialized = false;
 
 const Scene10 = () => {
     const router = useRouter();
-    const gameRef = useRef<any>(null);
+    const gameRef = useRef<Phaser.Game | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -322,16 +322,16 @@ const Scene10 = () => {
 
                     private showGameOver(): void {
                         incrementDeathCount();
-                    
+
                         // Change background to lose screen
                         this.background.setTexture("death");
-                    
+
                         // Add and play the video
                         const deathVideo = this.add.video(600, 500, "death"); // Center the video
                         deathVideo.setOrigin(0.5, 0.5); // Center the origin
                         deathVideo.setScale(1.2); // Adjust scale if needed
                         deathVideo.play(false); // Play the video in a loop (set to `false` if you don't want looping)
-                    
+
                         // Add an event listener to detect when the video ends
                         deathVideo.on("complete", () => {
                             // Show game over overlay after the video ends
@@ -344,7 +344,7 @@ const Scene10 = () => {
                                 0.8
                             );
                             this.gameOverOverlay.setVisible(true);
-                    
+
                             // Add death count text in top left
                             const deathCountText = this.add.text(880, 50, `💀: ${getDeathCount()}`, {
                                 fontSize: "48px",
@@ -354,13 +354,13 @@ const Scene10 = () => {
                                 padding: { x: 20, y: 20 },
                             });
                             deathCountText.setOrigin(0, 0); // Align to top left
-                    
+
                             this.gameOverText = this.add.text(
                                 600,
                                 500,
                                 "มารยาทพื้นฐานข้อที่ 110\nกินข้าวเสร็จแล้วต้องรวบช้อนให้เรียบร้อย" +
-                                    "\n DEATH COUNT: " +
-                                    getDeathCount(),
+                                "\n DEATH COUNT: " +
+                                getDeathCount(),
                                 {
                                     fontFamily: "Torsilp-SuChat", // Use the same font as in scene 2
                                     fontSize: "56px", // Adjust font size for readability
@@ -372,13 +372,13 @@ const Scene10 = () => {
                             );
                             this.gameOverText.setOrigin(0.5); // Center the text
                             this.gameOverText.setVisible(true);
-                    
+
                             // Make game over screen clickable to go home
                             this.gameOverOverlay.setInteractive();
                             this.gameOverOverlay.once("pointerdown", () => {
                                 router.push("/");
                             });
-                    
+
                             // Automatically go home after 4 seconds
                             this.time.delayedCall(4000, () => {
                                 router.push("/");
@@ -397,7 +397,7 @@ const Scene10 = () => {
 
                 // Clean up any existing game instance
                 if (gameInstance) {
-                    gameInstance.destroy(true);
+                    (gameInstance as Phaser.Game).destroy(true); // Assert that gameInstance is a Phaser.Game
                 }
 
                 // Create new game instance
@@ -414,7 +414,7 @@ const Scene10 = () => {
         return () => {
             // Don't destroy game instance on component unmount
         };
-    }, []);
+    }, [router]);
 
     return (
         <div
