@@ -100,6 +100,7 @@ export default function Home() {
         <video
           src='/videos/video-output-119D2BEB-BFA1-42F1-8030-C5AA3D2FEB1A-1.mp4'
           autoPlay
+          onEnded={() => window.location.reload()}
           className="h-screen"
         />
       )}
