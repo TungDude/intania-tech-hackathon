@@ -43,25 +43,34 @@ const Scene5 = () => {
 
           create(): void {
             // Initial background
-            this.background = this.add.sprite(600, 500, "bg_5_1");
+            this.background = this.add.sprite(600, 600, "bg_5_1");
             this.background.setOrigin(0.5, 0.5);
-            this.background.setDisplaySize(this.scale.width, this.scale.height);
-          
+            this.background.setScale(0.4);
+
+            // Set loading to false once initial assets are loaded
+            setIsLoading(false);
+
             // Transition to second background after 2 seconds
             this.time.delayedCall(2000, () => {
               this.background.setTexture("bg_5_2");
-              this.background.setDisplaySize(this.scale.width, this.scale.height);
-          
+              this.background.setScale(0.4);
+
               // Show the "Thank You" button after the background changes
               this.thankYouButton.setVisible(true);
               this.thankYouButtonText.setVisible(true);
             });
-          
+
             // Create thank you button (initially hidden)
-            this.thankYouButton = this.add.rectangle(600, 900, 220, 70, 0x4caf50);
+            this.thankYouButton = this.add.rectangle(
+              600,
+              900,
+              220,
+              70,
+              0x4caf50
+            );
             this.thankYouButton.setStrokeStyle(3, 0x2e7d32);
             this.thankYouButton.setVisible(false); // Initially hidden
-          
+
             this.thankYouButtonText = this.add.text(600, 900, "Thank You", {
               fontFamily: "Arial",
               fontSize: "36px",
@@ -71,11 +80,15 @@ const Scene5 = () => {
             });
             this.thankYouButtonText.setOrigin(0.5);
             this.thankYouButtonText.setVisible(false); // Initially hidden
-          
+
             // Make button interactive
             this.thankYouButton.setInteractive();
-            this.thankYouButton.on("pointerdown", this.handleThankYouClick, this);
-          
+            this.thankYouButton.on(
+              "pointerdown",
+              this.handleThankYouClick,
+              this
+            );
+
             // Start 5-second timer
             let timeLeft = 5;
             this.timerEvent = this.time.addEvent({
@@ -109,13 +122,13 @@ const Scene5 = () => {
           private showGameOver(): void {
             // Change background to lose screen
             this.background.setTexture("bg_5_lose");
-          
+
             // Delay the punch animation by 2 seconds
             this.time.delayedCall(750, () => {
               // Add rapid zoom-in animation for ele_punch
               const elePunch = this.add.sprite(600, 500, "ele_punch");
               elePunch.setScale(0);
-          
+
               // Start punch scaling animation
               this.tweens.add({
                 targets: elePunch,
@@ -123,7 +136,7 @@ const Scene5 = () => {
                 duration: 1000,
                 ease: "Back.easeOut",
               });
-          
+
               // Start shaking animation immediately
               this.tweens.add({
                 targets: [this.background, elePunch],
@@ -143,7 +156,7 @@ const Scene5 = () => {
                     0.8
                   );
                   this.gameOverOverlay.setVisible(true);
-          
+
                   this.gameOverText = this.add.text(
                     600,
                     500,
@@ -159,13 +172,13 @@ const Scene5 = () => {
                   );
                   this.gameOverText.setOrigin(0.5); // Center the text
                   this.gameOverText.setVisible(true);
-          
+
                   // Make game over screen clickable to go home
                   this.gameOverOverlay.setInteractive();
                   this.gameOverOverlay.once("pointerdown", () => {
                     window.location.href = "/";
                   });
-          
+
                   // Automatically go home after 4 seconds
                   this.time.delayedCall(4000, () => {
                     window.location.href = "/";
@@ -173,7 +186,8 @@ const Scene5 = () => {
                 },
               });
             });
-          }}
+          }
+        }
         const config: Phaser.Types.Core.GameConfig = {
           type: Phaser.AUTO,
           width: 1200,
