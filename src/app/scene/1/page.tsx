@@ -3,6 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
+// Add font-face declaration
+const fontFaceStyle = `
+  @font-face {
+    font-family: 'Torsilp-SuChat';
+    src: url('./Torsilp-SuChat.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+`;
+
 // Singleton to track game instance and global state
 let gameInstance: any = null;
 let hasInitialized = false;
@@ -13,6 +23,11 @@ const Scene1 = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Add font-face style to document
+    const style = document.createElement("style");
+    style.textContent = fontFaceStyle;
+    document.head.appendChild(style);
+
     const initGame = async () => {
       // Prevent multiple initializations globally, not just within this component instance
       if (typeof window === "undefined" || gameInstance || hasInitialized)
@@ -50,6 +65,9 @@ const Scene1 = () => {
           }
 
           preload(): void {
+            // Load font
+            this.load.css("Torsilp", "./Torsilp-SuChat.ttf");
+
             this.load.image("boss", "/images/1_boss_happy.png");
             this.load.image("boss_unhappy", "/images/2_boss_unhappy.png");
             this.load.image("boss_happier", "/images/2_boss.png");
@@ -69,17 +87,19 @@ const Scene1 = () => {
 
             // Add text with proper configuration
             this.text = this.add.text(600, 330, "", {
-              fontFamily: "monospace",
-              fontSize: "40px",
+              fontFamily: "Torsilp-SuChat",
+              fontSize: "36px",
               color: "#000000",
               align: "center",
               wordWrap: { width: 1000 },
+              lineSpacing: 20,
+              padding: { x: 15, y: 15 },
             });
             this.text.setOrigin(0.5);
 
             // Create choice boxes (initially hidden)
-            this.choiceBox1 = this.add.rectangle(400, 500, 200, 60, 0xffffff);
-            this.choiceBox2 = this.add.rectangle(800, 500, 200, 60, 0xffffff);
+            this.choiceBox1 = this.add.rectangle(400, 500, 220, 70, 0xffffff);
+            this.choiceBox2 = this.add.rectangle(800, 500, 220, 70, 0xffffff);
             this.choiceBox1.setStrokeStyle(2, 0x000000);
             this.choiceBox2.setStrokeStyle(2, 0x000000);
             this.choiceBox1.setVisible(false);
@@ -88,18 +108,22 @@ const Scene1 = () => {
             // Create choice texts (initially hidden)
             this.choiceText1 = this.add
               .text(400, 500, "ซูชิ", {
-                fontFamily: "monospace",
-                fontSize: "30px",
+                fontFamily: "Torsilp-SuChat",
+                fontSize: "32px",
                 color: "#000000",
+                padding: { x: 10, y: 10 },
               })
               .setOrigin(0.5);
+
             this.choiceText2 = this.add
               .text(800, 500, "ชาบู", {
-                fontFamily: "monospace",
-                fontSize: "30px",
+                fontFamily: "Torsilp-SuChat",
+                fontSize: "32px",
                 color: "#000000",
+                padding: { x: 10, y: 10 },
               })
               .setOrigin(0.5);
+
             this.choiceText1.setVisible(false);
             this.choiceText2.setVisible(false);
 
@@ -114,10 +138,12 @@ const Scene1 = () => {
             );
             this.gameOverOverlay.setVisible(false);
             this.gameOverText = this.add.text(600, 500, "GAME OVER", {
-              fontFamily: "monospace",
+              fontFamily: "Torsilp-SuChat",
               fontSize: "80px",
               color: "#ffffff",
               align: "center",
+              lineSpacing: 30,
+              padding: { x: 20, y: 20 },
             });
             this.gameOverText.setOrigin(0.5);
             this.gameOverText.setVisible(false);
@@ -314,6 +340,10 @@ const Scene1 = () => {
             this.gameOverOverlay.once("pointerdown", () => {
               window.location.href = "/";
             });
+            // Automatically go home after 4 seconds
+            this.time.delayedCall(4000, () => {
+              window.location.href = "/";
+            });
           }
 
           private handleChoice(choice: string): void {
@@ -345,7 +375,9 @@ const Scene1 = () => {
 
             // Wait a bit and then show game over with custom text
             this.time.delayedCall(3000, () => {
-              this.showGameOver("ไม่ชอบอาหารญี่ปุ่น\nGAME OVER");
+              this.showGameOver(
+                "มารยาทพื้นฐานข้อที่ 31\nควรให้เกียรติผู้ใหญ่ในการตัดสินใจ!"
+              );
             });
           }
         }
