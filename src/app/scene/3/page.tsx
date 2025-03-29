@@ -1,8 +1,13 @@
 'use client'
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import EndScreen from "@/components/EndScreen";
+import { useRouter } from "next/navigation";
+import { getDeathCount, incrementDeathCount } from "@/app/_utils/gameState";
+
 
 export default function Scene3() {
+    const router = useRouter();
     const [isClothDropped, setIsClothDropped] = useState(false);
     const [textSequence, setTextSequence] = useState(0);
     const [winable, setWinable] = useState(false);
@@ -24,10 +29,11 @@ export default function Scene3() {
             setWinable(true);
         }
     }, [textSequence]);
-    
+
     useEffect(() => {
         if (lose) {
             setTimeout(() => {
+                incrementDeathCount();
                 setShowHangImage(true); // Show image after 4 seconds
             }, 2000);
         }
@@ -53,6 +59,7 @@ export default function Scene3() {
             }
 
             setIsClothDropped(true);
+            router.push('/scene/4');
         }
     };
 
@@ -61,13 +68,19 @@ export default function Scene3() {
             className={`relative bg-white h-screen w-full flex justify-center transition-all `}
         >
             {showHangImage && (
-                <Image
-                    src={'/images/3_hang.PNG'}
-                    alt={'3_hang'}
-                    width={1028}
-                    height={852}
-                    className={`object-contain animate-float-down`}
-                />
+                <>
+                    <Image
+                        src={'/images/3_hang.PNG'}
+                        alt={'3_hang'}
+                        width={1028}
+                        height={852}
+                        className={`object-contain animate-float-down`}
+                    />
+                    <EndScreen
+                        text="มารยาทพื้นฐานข้อที่ 11 ควรเอาผ้าคลุมตักก่อนรับประทานอาหาร"
+                        className="animate-fade-in-door-0"
+                    />
+                </>
             )}
             {!showHangImage && (
                 <Image
@@ -75,16 +88,14 @@ export default function Scene3() {
                     alt={'3_sample_layout'}
                     width={1028}
                     height={852}
-                    className={`object-contain transition-all ${
-                        lose ? "animate-fall-down" : ""
-                    }`}
+                    className={`object-contain transition-all ${lose ? "animate-fall-down" : ""
+                        }`}
                 />
             )}
 
             {textSequence === 1 && (
-                <div key={textSequence} className={`absolute flex h-[400px] w-[400px] overflow-hidden left-[200px] bottom-[260px] animate-fade-text-3 ${
-                    lose ? "animate-fall-down" : ""
-                }`}>
+                <div key={textSequence} className={`absolute flex h-[400px] w-[400px] overflow-hidden left-[200px] bottom-[260px] animate-fade-text-3 ${lose ? "animate-fall-down" : ""
+                    }`}>
                     <Image
                         src={'/images/ele_bubble_left.PNG'}
                         alt={'3_bubble_left'}
@@ -99,9 +110,8 @@ export default function Scene3() {
             )}
 
             {textSequence === 2 && (
-                <div key={textSequence} className={`absolute flex h-[400px] w-[400px] overflow-hidden right-[200px] bottom-[260px] animate-fade-text-3 ${
-                    lose ? "animate-fall-down" : ""
-                }`}>
+                <div key={textSequence} className={`absolute flex h-[400px] w-[400px] overflow-hidden right-[200px] bottom-[260px] animate-fade-text-3 ${lose ? "animate-fall-down" : ""
+                    }`}>
                     <Image
                         src={'/images/ele_bubble_right.PNG'}
                         alt={'3_bubble_right'}
@@ -121,9 +131,8 @@ export default function Scene3() {
                     alt={'3_cloth'}
                     width={1028}
                     height={852}
-                    className={`absolute bottom-[90px] h-[200px] w-auto cursor-pointer animate-pulse-cloth-3 hover:animate-scale-up-cloth-3 ${
-                        lose ? "animate-fall-down" : ""
-                    }`}
+                    className={`absolute bottom-[90px] h-[200px] w-auto cursor-pointer animate-pulse-cloth-3 hover:animate-scale-up-cloth-3 ${lose ? "animate-fall-down" : ""
+                        }`}
                     draggable={true}
                     onDragStart={handleDragStart}
                 />

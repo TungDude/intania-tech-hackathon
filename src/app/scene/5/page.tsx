@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { getDeathCount, incrementDeathCount } from "@/app/_utils/gameState";
+
 
 // Singleton to track game instance
 let gameInstance: any = null;
@@ -134,6 +136,7 @@ const Scene5 = () => {
           }
 
           private showGameOver(): void {
+            incrementDeathCount();
             // Change background to lose screen
             this.background.setTexture("bg_5_lose");
 
@@ -171,10 +174,20 @@ const Scene5 = () => {
                   );
                   this.gameOverOverlay.setVisible(true);
 
+                              // Add death count text in top left
+                    const deathCountText = this.add.text(880, 50, `💀: ${getDeathCount()}`, {
+                        fontSize: "48px",
+                        color: "#FFFFFF",
+                        align: "left",
+                        lineSpacing: 30,
+                        padding: { x: 20, y: 20 },
+                    });
+                    deathCountText.setOrigin(0, 0); // Align to top left
+
                   this.gameOverText = this.add.text(
                     600,
                     500,
-                    "มารยาทพื้นฐานข้อที่ 1 \n ขอบคุณเมื่อมีคนมอบของให้ \n เป็นมารยาทไทย",
+                    "มารยาทพื้นฐานข้อที่ 1 \n ขอบคุณเมื่อมีคนมอบของให้ \n เป็นมารยาทไทย"+ "\n DEATH COUNT: " + getDeathCount(),
                     {
                       fontFamily: "Torsilp-SuChat", // Use the same font as in scene 2
                       fontSize: "56px", // Adjust font size for readability
