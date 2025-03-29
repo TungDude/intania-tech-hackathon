@@ -183,7 +183,7 @@ const Scene10 = () => {
                         this.knife.setInteractive({ draggable: true });
 
                         // Track if currently dragging
-                        let isDragging = false;
+                        // let isDragging = false;
 
                         this.input.on(
                             "dragstart",
@@ -192,7 +192,7 @@ const Scene10 = () => {
                                 gameObject: Phaser.GameObjects.GameObject
                             ) => {
                                 if (gameObject === this.knife && this.isAnimating) {
-                                    isDragging = true;
+                                    // isDragging = true;
                                     // Tilt Knife 45 degrees when starting to drag
                                     this.knife.setRotation(Math.PI / 4); // 45 degrees in radians
                                 }
@@ -221,7 +221,7 @@ const Scene10 = () => {
                                 gameObject: Phaser.GameObjects.GameObject
                             ) => {
                                 if (gameObject === this.knife && this.isAnimating) {
-                                    isDragging = false;
+                                    // isDragging = false;
                                     this.isKnifeDragged = true;
 
                                     // Reset Knife rotation when dropped
@@ -254,7 +254,7 @@ const Scene10 = () => {
                         this.fork.setInteractive({ draggable: true });
 
                         // Track if currently dragging
-                        let isDragging = false;
+                        // let isDragging = false;
 
                         this.input.on(
                             "dragstart",
@@ -263,7 +263,7 @@ const Scene10 = () => {
                                 gameObject: Phaser.GameObjects.GameObject
                             ) => {
                                 if (gameObject === this.fork && this.isAnimating) {
-                                    isDragging = true;
+                                    // isDragging = true;
                                     // Tilt fork 45 degrees when starting to drag
                                     this.fork.setRotation(Math.PI / 4); // 45 degrees in radians
                                 }
@@ -292,7 +292,7 @@ const Scene10 = () => {
                                 gameObject: Phaser.GameObjects.GameObject
                             ) => {
                                 if (gameObject === this.fork && this.isAnimating) {
-                                    isDragging = false;
+                                    // isDragging = false;
                                     this.isForkDragged = true;
 
                                     // Reset fork rotation when dropped
