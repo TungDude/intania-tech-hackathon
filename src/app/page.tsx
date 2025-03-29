@@ -42,7 +42,7 @@ export default function Home() {
     console.log(knockCount);
 
     if (knockCount >= 3) {
-      router.push('/home');
+      router.push('/scene/0');
     }
 
     setIsProcessing(true); // Disable clicks
