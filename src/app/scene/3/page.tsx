@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import EndScreen from "@/components/EndScreen";
 import { useRouter } from "next/navigation";
+import { getDeathCount, incrementDeathCount } from "@/app/_utils/gameState";
+
 
 export default function Scene3() {
     const router = useRouter();
@@ -31,6 +33,7 @@ export default function Scene3() {
     useEffect(() => {
         if (lose) {
             setTimeout(() => {
+                incrementDeathCount();
                 setShowHangImage(true); // Show image after 4 seconds
             }, 2000);
         }
@@ -74,7 +77,7 @@ export default function Scene3() {
                         className={`object-contain animate-float-down`}
                     />
                     <EndScreen
-                        text="LOSE"
+                        text={`LOSE \n DEATH COUNT: ${getDeathCount()}`}
                         className="animate-fade-in-door-0"
                     />
                 </>
