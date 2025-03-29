@@ -6,6 +6,7 @@ module.exports = {
       animation: {
         'zoom-in-door-0': 'zoom-in 4s ease-in-out forwards',
         'fade-in-door-0': 'fade-in 4s ease-in-out forwards',
+        'fade-text-0': 'fade-in-out 6s ease-in-out forwards',
       },
       keyframes: {
         'zoom-in': {
@@ -17,6 +18,11 @@ module.exports = {
         'fade-in': {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
+        },
+        'fade-in-out': {
+          '0%': { opacity: '0' },
+          '50%': { opacity: '1' },
+          '100%': { opacity: '0' },
         }
       },
     },
