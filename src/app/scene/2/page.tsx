@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { getDeathCount, incrementDeathCount } from "@/app/_utils/gameState";
 import dynamic from "next/dynamic";
 
 // Add font-face declaration
@@ -363,10 +364,21 @@ const Scene2 = () => {
           }
 
           private showGameOver(message: string = "GAME OVER"): void {
+            incrementDeathCount();
             console.log("Showing game over screen with message:", message);
 
             // Show game over screen
             this.gameOverOverlay.setVisible(true);
+
+            // Add death count text in top left
+            const deathCountText = this.add.text(880, 50, `💀: ${getDeathCount()}`, {
+              fontSize: "48px",
+              color: "#FFFFFF",
+              align: "left",
+              lineSpacing: 30,
+              padding: { x: 20, y: 20 },
+            });
+            deathCountText.setOrigin(0, 0); // Align to top left
 
             // Update game over text with custom message
             this.gameOverText.setText(message);
