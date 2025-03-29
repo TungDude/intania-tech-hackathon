@@ -304,7 +304,17 @@ const Scene4 = () => {
             this.gameOverOverlay.setVisible(true);
 
             // Update game over text with custom message
-            this.gameOverText.setText(message +  "\n DEATH COUNT: " + getDeathCount());
+
+            // Add death count text in top left
+            const deathCountText = this.add.text(880, 50, `💀: ${getDeathCount()}`, {
+              fontSize: "48px",
+              color: "#FFFFFF",
+              align: "left",
+              lineSpacing: 30,
+              padding: { x: 20, y: 20 },
+            });
+            deathCountText.setOrigin(0, 0); // Align to top left
+            this.gameOverText.setText(message);
             this.gameOverText.setFontSize(
               message.length > 20 ? "56px" : "80px"
             );

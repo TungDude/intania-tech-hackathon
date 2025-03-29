@@ -160,6 +160,16 @@ const Scene5 = () => {
                   );
                   this.gameOverOverlay.setVisible(true);
 
+                              // Add death count text in top left
+                    const deathCountText = this.add.text(880, 50, `💀: ${getDeathCount()}`, {
+                        fontSize: "48px",
+                        color: "#FFFFFF",
+                        align: "left",
+                        lineSpacing: 30,
+                        padding: { x: 20, y: 20 },
+                    });
+                    deathCountText.setOrigin(0, 0); // Align to top left
+
                   this.gameOverText = this.add.text(
                     600,
                     500,
