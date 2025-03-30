@@ -16,11 +16,11 @@ const fontFaceStyle = `
 `;
 
 // Singleton to track game instance
-let gameInstance: any = null;
+let gameInstance: Phaser.Game | null = null;
 let hasInitialized = false;
 
 const Scene4 = () => {
-  const gameRef = useRef<any>(null);
+  const gameRef = useRef<Phaser.Game | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -195,7 +195,7 @@ const Scene4 = () => {
             this.jar.setInteractive({ draggable: true });
 
             // Track if currently dragging
-            let isDragging = false;
+            // let isDragging = false;
 
             this.input.on(
               "dragstart",
@@ -204,7 +204,7 @@ const Scene4 = () => {
                 gameObject: Phaser.GameObjects.GameObject
               ) => {
                 if (gameObject === this.jar && this.isAnimating) {
-                  isDragging = true;
+                  // isDragging = true;
                   // Tilt jar 45 degrees when starting to drag
                   this.jar.setRotation(Math.PI / 4); // 45 degrees in radians
                 }
@@ -233,7 +233,7 @@ const Scene4 = () => {
                 gameObject: Phaser.GameObjects.GameObject
               ) => {
                 if (gameObject === this.jar && this.isAnimating) {
-                  isDragging = false;
+                  // isDragging = false;
                   this.isJarDragged = true;
 
                   // Reset jar rotation when dropped
@@ -406,7 +406,7 @@ const Scene4 = () => {
         };
 
         if (gameInstance) {
-          gameInstance.destroy(true);
+          (gameInstance as Phaser.Game).destroy(true); // Assert that gameInstance is a Phaser.Game
         }
 
         gameInstance = new Phaser.Game(config);

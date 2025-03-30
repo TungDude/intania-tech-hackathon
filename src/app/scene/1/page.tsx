@@ -16,12 +16,12 @@ const fontFaceStyle = `
 `;
 
 // Singleton to track game instance and global state
-let gameInstance: any = null;
+let gameInstance: Phaser.Game | null = null;
 let hasInitialized = false;
 let hasChoiceMade = false;
 
 const Scene1 = () => {
-  const gameRef = useRef<any>(null);
+  const gameRef = useRef<Phaser.Game | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -411,7 +411,7 @@ const Scene1 = () => {
 
         // Clean up any existing game instance
         if (gameInstance) {
-          gameInstance.destroy(true);
+          (gameInstance as Phaser.Game).destroy(true); // Assert that gameInstance is a Phaser.Game
         }
 
         // Create new game instance

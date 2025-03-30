@@ -13,7 +13,7 @@ export default function HomePage() {
     <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-800 text-white p-4">
       <div className="text-center space-y-12">
         <h1 className="text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
-          It's All Matter
+          It&apos;s All Matter
         </h1>
         <div className="space-y-4">
           <button

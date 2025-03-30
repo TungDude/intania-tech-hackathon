@@ -15,11 +15,11 @@ const fontFaceStyle = `
 `;
 
 // Singleton to track game instance
-let gameInstance: any = null;
+let gameInstance: Phaser.Game | null = null;
 let hasInitialized = false;
 
 const Scene2 = () => {
-  const gameRef = useRef<any>(null);
+  const gameRef = useRef<Phaser.Game | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -329,7 +329,7 @@ const Scene2 = () => {
             }
           }
 
-          private animateObjectsUp(callback: Function): void {
+          private animateObjectsUp(callback: () => void): void {
             console.log("Animating all objects moving up...");
 
             // Array of all objects to animate
@@ -425,7 +425,7 @@ const Scene2 = () => {
 
         // Clean up any existing game instance
         if (gameInstance) {
-          gameInstance.destroy(true);
+          (gameInstance as Phaser.Game).destroy(true); // Assert that gameInstance is a Phaser.Game
         }
 
         // Create new game instance

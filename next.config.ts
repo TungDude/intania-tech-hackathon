@@ -1,16 +1,11 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
   webpack: (config) => {
     // Add support for Phaser
     config.module.rules.push({
       test: /\.js$/,
-      include: /node_modules\/phaser/,
-      use: {
-        loader: "babel-loader",
-        options: {
-          presets: ["@babel/preset-env"],
-        },
-      },
+      use: 'babel-loader',
     });
     return config;
   },

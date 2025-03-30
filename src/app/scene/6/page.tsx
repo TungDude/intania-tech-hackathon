@@ -19,7 +19,7 @@ export default function Scene6() {
         router.push("/scene/7")
       }, 6000)
     }
-  }, [correct])
+  }, [correct, router])
 
   useEffect(() => {
     if (lose) {

@@ -14,11 +14,11 @@ const fontFaceStyle = `
 `;
 
 // Singleton to track game instance
-let gameInstance: any = null;
+let gameInstance: Phaser.Game | null = null;
 let hasInitialized = false;
 
 const Scene7 = () => {
-  const gameRef = useRef<any>(null);
+  const gameRef = useRef<Phaser.Game | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -283,7 +283,7 @@ const Scene7 = () => {
         };
 
         if (gameInstance) {
-          gameInstance.destroy(true);
+          (gameInstance as Phaser.Game).destroy(true); // Assert that gameInstance is a Phaser.Game
         }
 
         gameInstance = new Phaser.Game(config);
