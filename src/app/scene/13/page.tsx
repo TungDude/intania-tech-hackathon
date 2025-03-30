@@ -151,6 +151,7 @@ const Scene13 = () => {
                                     setTimeout(() => {
                                         this.bubbleRight.setVisible(true);
                                         this.startTypingEffect("ขอบคุณมากครับ");
+                                        router.push('/scene/result');
                                     }, 1000)
                                 }
                                 // console.log(`Time left: ${this.timeLeft}`);
