@@ -15,11 +15,11 @@ const fontFaceStyle = `
 `;
 
 // Singleton to track game instance
-let gameInstance: any = null;
+let gameInstance: Phaser.Game | null = null;
 let hasInitialized = false;
 
 const Scene9 = () => {
-  const gameRef = useRef<any>(null);
+  const gameRef = useRef<Phaser.Game | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -256,7 +256,7 @@ const Scene9 = () => {
           }
 
           // Add a method to animate all objects moving down before game over
-          private animateObjectsDown(callback: Function): void {
+          private animateObjectsDown(callback: () => void): void {
             console.log("Animating all objects moving down...");
 
             // Array of all objects to animate
@@ -511,8 +511,8 @@ const Scene9 = () => {
         };
 
         if (gameInstance) {
-          gameInstance.destroy(true);
-        }
+          (gameInstance as Phaser.Game).destroy(true); // Assert that gameInstance is a Phaser.Game
+      }
 
         gameInstance = new Phaser.Game(config);
         gameRef.current = gameInstance;
